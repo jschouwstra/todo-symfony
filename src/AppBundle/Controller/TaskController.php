@@ -9,13 +9,24 @@ use Symfony\Component\HttpFoundation\Request;
 class TaskController extends Controller
 {
     /**
-     * @Route("/", name="index")
+     * @Route("/task/list", name="task_list")
      */
     public function indexAction(Request $request)
     {
         // replace this example code with whatever you need
-        return $this->render('task/index.html.twig', [
-            'bla' => 'bla'
+        return $this->render('task/list.html.twig', [
+            'title' => 'Task list',
+        ]);
+    }
+
+    /**
+     * @Route("/task/create", name="task_create")
+     */
+    public function createAction(Request $request)
+    {
+        // replace this example code with whatever you need
+        return $this->render('task/list.html.twig', [
+            'title' => 'Task list',
         ]);
     }
 }
