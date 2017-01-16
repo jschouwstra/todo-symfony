@@ -15,6 +15,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Task
 {
+
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
@@ -25,13 +27,11 @@ class Task
     /**
      * @ORM\Column(type="string", length=100)
      *
+     *
      */
     private $name;
 
-    /**
-     * @ORM\Column(type="text")
-     */
-    private $description;
+
 
     /**
      * Get id
@@ -42,6 +42,8 @@ class Task
     {
         return $this->id;
     }
+
+
 
     /**
      * Set name
@@ -57,6 +59,7 @@ class Task
         return $this;
     }
 
+
     /**
      * Get name
      *
@@ -67,27 +70,5 @@ class Task
         return $this->name;
     }
 
-    /**
-     * Set description
-     *
-     * @param string $description
-     *
-     * @return Task
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
 
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
 }

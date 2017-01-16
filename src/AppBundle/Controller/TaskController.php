@@ -4,10 +4,25 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use AppBundle\Entity\Task;
+use AppBundle\Form\TaskType;
 
 class TaskController extends Controller
 {
+    /**
+     * @Route("/", name="home")
+     */
+    public function home(Request $request)
+    {
+        // replace this example code with whatever you need
+        return $this->render('task/list.html.twig', [
+            'title' => 'Task list',
+        ]);
+    }
+
     /**
      * @Route("/task/list", name="task_list")
      */
@@ -24,9 +39,32 @@ class TaskController extends Controller
      */
     public function createAction(Request $request)
     {
-        // replace this example code with whatever you need
-        return $this->render('task/list.html.twig', [
+
+        // create a task and give it some dummy data for this example
+        $task = new Task();
+        $task->setName('Write a blog post');
+
+//        $form = $this->createFormBuilder($task)
+//            ->add('name', TextType::class)
+//            ->add('save', SubmitType::class, array('label' => 'Create Task'))
+//            ->getForm();
+        $form = $this->createForm(TaskType::class, $task);
+
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $task = $form->getData();
+
+            $doctrine = $this->getDoctrine()->getManager();
+            $doctrine->persist($task);
+            $doctrine->flush();
+        }
+
+        return $this->render('task/new.html.twig', [
             'title' => 'Task list',
+            'form' => $form->createView(),
         ]);
+
     }
 }
