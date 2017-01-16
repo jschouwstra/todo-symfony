@@ -40,7 +40,6 @@ class TaskController extends Controller
     public function createAction(Request $request)
     {
         $task = new Task();
-        $task->setName('Write a blog post');
         $form = $this->createForm(TaskType::class, $task);
         $form->handleRequest($request);
 
