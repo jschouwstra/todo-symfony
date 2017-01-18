@@ -7,12 +7,14 @@
  */
 
 namespace AppBundle\Entity;
-
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="task")
+ * @UniqueEntity("name")
  */
 class Task
 {
@@ -25,7 +27,7 @@ class Task
 
     /**
      * @ORM\Column(type="string", length=100)
-     *
+     * @Assert\NotBlank()
      *
      */
     private $name;

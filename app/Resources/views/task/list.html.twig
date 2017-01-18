@@ -13,7 +13,14 @@
         <table class="table table-bordered">
             <tr>
                 <td>Task</td>
+                <td>Operations</td>
             </tr>
+            {% for task in tasks %}
+            <tr>
+                <td>{{ task.name }}</td>
+                <td><a class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</a></td>
+            </tr>
+            {% endfor %}
             <tr>
                 <td></td>
             </tr>
