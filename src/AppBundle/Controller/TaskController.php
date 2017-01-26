@@ -11,6 +11,10 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use AppBundle\Entity\Task;
 use AppBundle\Form\TaskType;
 
+/**
+ * Class TaskController
+ * @package AppBundle\Controller
+ */
 class TaskController extends Controller
 {
 //    /**
@@ -25,7 +29,7 @@ class TaskController extends Controller
 //    }
 
     /**
-     * @Route("/task/list", name="task_list")
+     * @Route("/task", name="task_list")
      * @Route("/", name="home")
      */
     public function indexAction(Request $request)
@@ -62,32 +66,29 @@ class TaskController extends Controller
         }
 
         return $this->render('task/new.html.twig', [
-            'title' => 'Task list',
+            'title' => 'New task',
             'form' => $form->createView(),
         ]);
 
     }
     /**
-     * @Route("/task/edit", name="task_edit")
+     * @Route("/task/{id}/edit", name="task_edit")
      */
-    public function editAction(Request $request)
+    public function editAction(Request $request, Task $task)
     {
-        $task = new Task();
-        $form = $this->createForm(TaskType::class, $task);
-        $form->handleRequest($request);
+        $editForm = $this->createForm('AppBundle\Form\TaskType', $task);
+        $editForm->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $task = $form->getData();
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
 
-            $doctrine = $this->getDoctrine()->getManager();
-            $doctrine->persist($task);
-            $doctrine->flush();
+            return $this->redirectToRoute('task_edit', array('id' => $task->getId()));
         }
 
-        return $this->render('task/new.html.twig', [
-            'title' => 'Task list',
-            'form' => $form->createView(),
-        ]);
-
+        return $this->render('task/new.html.twig', array(
+            'title' => 'Task edit',
+            'task' => $task,
+            'form' => $editForm->createView(),
+        ));
     }
 }
